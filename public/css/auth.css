@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+:root {
+    --brown-color: #A45D41;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.row {
+    height: 100vh;
+}
+
+.col-xl-6, .col-lg-12 {
+    padding: 0;
+}
+
+/* Banner */
+
+.img-wrapper {
+    padding: 0;
+}
+
+img.img-coffee {
+    height: 100vh; 
+}
+
+/* End Banner */
+
+/* LoginForm */
+
+.login-form {
+    width: 350px;
+    padding: 0px 12px;
+}
+
+img.login-logo {
+    width: 120px;
+}
+
+.login-line {
+    border: 1px solid var(--brown-color);
+    background-color: var(--brown-color);
+    border-radius: 0.25rem;
+    height: 3px;
+    margin: 16px 0px 24px 0px;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+input[type="text"], input[type="password"] {
+    border: 1px solid #A45D41;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border: 1px solid #A45D41;
+}
+
+.btn-login {
+    background-color: #A45D41;
+    color: #fff;
+}
+
+.btn-login:hover {
+    background-color: #81472e;
+    color: #fff;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+/* End LoginForm */
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+    .img-container {
+        display: none;
+    }
+}
+
+/* End Responsive */
