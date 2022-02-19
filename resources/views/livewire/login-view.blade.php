@@ -8,7 +8,7 @@
             <i class="fa-solid fa-circle-xmark"></i>&nbsp;&nbsp;{{ session('loginFailed') }}
         </div>
     @endif
-    <form action="/" method="post">
+    <form action="/login" method="post">
         @csrf
         <div class="mb-3">
             <label for="username" class="form-label"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Username</label>
