@@ -16,7 +16,7 @@
             <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li>
-                        <a class="profile-pic" href="#">
+                        <a class="profile-pic" href="/dashboard/profile">
                             <img src="{{ asset('img/user.jpg') }}" alt="user-img" width="36"class="img-circle"><span class="text-white font-medium">{{ Auth::user()->nama }}</span>
                         </a>
                     </li>

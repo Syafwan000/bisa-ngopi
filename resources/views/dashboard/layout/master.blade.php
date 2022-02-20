@@ -10,19 +10,28 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css') }}">
     <link rel="stylesheet" href="{{ asset('template/css/style.min.css') }}" >
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    @livewireStyles
     <title>{{ $title }}</title>
 </head>
+<body>
 
-<body>
-<body>
+    <div class="preloader">
+      <div class="lds-ripple">
+          <div class="lds-pos"></div>
+          <div class="lds-pos"></div>
+      </div>
+    </div>
+
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('dashboard.components.nav')
         @include('dashboard.components.sidebar')
         <div class="page-wrapper">
             @include('dashboard.components.header')
-            @yield('page-dashboard')
-            <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a 
-              href="https://www.wrappixel.com/">wrappixel.com</a>
+            <div class="container-fluid">
+              @yield('page-dashboard')
+            </div>
+            <footer class="footer text-center">
+              &copy; BisaNgopi 2022 - Present
             </footer>
         </div>
     </div>
@@ -38,13 +47,15 @@
               Apakah anda yakin ingin keluar ?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary shadow-none" data-bs-dismiss="modal">Tidak</button>
-              <a href="/logout" type="submit" class="btn btn-primary shadow-none">Keluar</a>
+              <button type="button" class="btn btn-secondary text-white shadow-none" data-bs-dismiss="modal">Tidak</button>
+              <a href="/logout" type="submit" class="btn btn-danger text-white shadow-none">Keluar</a>
             </div>
           </div>
         </div>
       </div>
 
+    @livewireScripts
+    <script src="{{ asset('js/showPassword.js') }}"></script>
     <script src="{{ asset('template/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('template/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('template/js/app-style-switcher.js') }}"></script>
@@ -56,5 +67,4 @@
     <script src="{{ asset('template/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
     <script src="{{ asset('template/js/pages/dashboards/dashboard1.js') }}"></script>
 </body>
-
 </html>

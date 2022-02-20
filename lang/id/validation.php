@@ -142,13 +142,23 @@ return [
     */
 
     'custom' => [
+        'nama' => [
+            'required' => 'Nama tidak boleh kosong',
+            'max' => 'Nama maksimal terdiri dari 255 karakter',
+            'min' => 'Nama minimal terdiri dari 3 karakter'
+        ],
         'username' => [
             'required' => 'Username tidak boleh kosong',
             'max' => 'Username maksimal terdiri 55 karakter',
-            'min' => 'Username minimal terdiri 5 karakter'
+            'min' => 'Username minimal terdiri 5 karakter',
+            'unique' => 'Username tidak tersedia'
+        ],
+        'role' => [
+            'required' => 'Pilih role terlebih dahulu'
         ],
         'password' => [
-            'required' => 'Password tidak boleh kosong'
+            'required' => 'Password tidak boleh kosong',
+            'min' => 'Password minimal terdiri dari 5 karakter'
         ],
     ],
 

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogUserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +22,11 @@ Route::get('/', [LoginController::class, 'index'])->middleware('guest')->name('l
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
+// Admin
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::resource('/dashboard/users', UserController::class);
+Route::get('/dashboard/log-users', [LogUserController::class, 'index']);
+Route::get('/users/export', [UserController::class, 'export'])->middleware('auth');
+
+
+Route::get('/dashboard/profile', [ProfileController::class, 'index'])->middleware('auth');
