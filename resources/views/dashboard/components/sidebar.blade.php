@@ -27,7 +27,7 @@
                 @endcan
                 @can('manager')
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link {{ Request::is('/dashboard/menu*') ? 'active' : '' }}" href="/dashboard/menu"
                         aria-expanded="false">
                         <i class="fa-brands fa-readme" aria-hidden="true"></i>
                         <span class="hide-menu">Menu</span>

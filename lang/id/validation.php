@@ -160,6 +160,22 @@ return [
             'required' => 'Password tidak boleh kosong',
             'min' => 'Password minimal terdiri dari 5 karakter'
         ],
+        'nama_menu' => [
+            'required' => 'Nama menu tidak boleh kosong',
+            'max' => 'Nama menu maksimal terdiri dari 255 karakter',
+            'min' => 'Nama menu minimal terdiri dari 3 karakter'
+        ],
+        'harga' => [
+            'required' => 'Harga tidak boleh kosong'
+        ],
+        'deskripsi' => [
+            'required' => 'Deskripsi tidak boleh kosong',
+            'max' => 'Deskripsi maksimal terdiri dari 500 karakter',
+            'min' => 'Deskripsi minimal terdiri dari 15 karakter'
+        ],
+        'ketersediaan' => [
+            'required' => 'Ketersediaan tidak boleh kosong'
+        ],
     ],
 
     /*
