@@ -176,6 +176,23 @@ return [
         'ketersediaan' => [
             'required' => 'Ketersediaan tidak boleh kosong'
         ],
+        'nama_pelanggan' => [
+            'required' => 'Nama pelanggan tidak boleh kosong',
+            'max' => 'Nama pelanggan maksimal terdiri dari 255 karakter',
+            'min' => 'Nama pelanggan minimal terdiri dari 3 karakter'
+        ],
+        'nama_menu' => [
+            'required' => 'Nama menu tidak boleh kosong'
+        ],
+        'jumlah' => [
+            'required' => 'Jumlah tidak boleh kosong'
+        ],
+        'total_harga' => [
+            'required' => 'Total harga tidak boleh kosong'
+        ],
+        'nama_pegawai' => [
+            'required' => 'Nama pegawai tidak boleh kosong' 
+        ]
     ],
 
     /*

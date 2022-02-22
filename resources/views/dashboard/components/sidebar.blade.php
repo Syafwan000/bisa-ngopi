@@ -43,17 +43,10 @@
                 @endcan
                 @can('cashier')
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link {{ Request::is('/dashboard/cashier*') ? 'active' : '' }}" href="/dashboard/cashier"
                         aria-expanded="false">
                         <i class="fa-solid fa-cash-register" aria-hidden="true"></i>
                         <span class="hide-menu">Cashier</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
-                        aria-expanded="false">
-                        <i class="fa-solid fa-circle-dollar-to-slot" aria-hidden="true"></i>
-                        <span class="hide-menu">Transaksi</span>
                     </a>
                 </li>
                 @endcan

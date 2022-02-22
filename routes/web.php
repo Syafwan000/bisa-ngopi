@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogUserController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +20,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Auth
 Route::get('/', [LoginController::class, 'index'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::get('/logout', [LoginController::class, 'logout']);
 
 // Admin
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('/dashboard/users', UserController::class);
 Route::get('/dashboard/log-users', [LogUserController::class, 'index']);
 Route::get('/users/export', [UserController::class, 'export'])->middleware('auth');
@@ -33,5 +38,5 @@ Route::get('/users/export', [UserController::class, 'export'])->middleware('auth
 Route::resource('/dashboard/menu', MenuController::class);
 Route::get('/menu/export', [MenuController::class, 'export'])->middleware('auth');
 
-// Profile
-Route::get('/dashboard/profile', [ProfileController::class, 'index'])->middleware('auth');
+// Cashier
+Route::resource('/dashboard/cashier', TransaksiController::class);

@@ -65,9 +65,9 @@
                             <tr>
                                 <td>{{ $menus->firstItem() + $key }}</td>
                                 <td>{{ $menu->nama_menu }}</td>
-                                <td>{{ $menu->harga }}</td>
+                                <td>Rp {{ number_format($menu->harga) }}</td>
                                 <td>{{ $menu->deskripsi }}</td>
-                                <td>{{ $menu->ketersediaan }}</td>
+                                <td>{{ number_format($menu->ketersediaan) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

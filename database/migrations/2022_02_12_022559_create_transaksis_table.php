@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->integer('total_harga');
             $table->string('nama_pegawai');
-            $table->foreignId('pegawai_id');
             $table->timestamps();
         });
     }
