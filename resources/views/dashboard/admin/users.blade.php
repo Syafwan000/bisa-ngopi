@@ -5,15 +5,18 @@
 <div class="row">
     <div class="col-md-12">
         <div class="white-box">
+            <h3 class="box-title">Admin Dashboard</h3>
             <div class="mb-3">
-                <a href="/dashboard/users/create" class="btn btn-success text-white shadow-none">Tambah User</a>
-                <a href="/users/export" class="btn btn-info text-white shadow-none ms-2">Export (Excel)</a>
+                <a href="/dashboard/users/create" class="btn btn-success text-white shadow-none"><i class="fa-solid fa-circle-plus"></i>&nbsp;&nbsp;Tambah User</a>
+                <a href="/users/export/excel" class="btn btn-info text-white shadow-none ms-2"><i class="fa-solid fa-table"></i>&nbsp;&nbsp;Export (Excel)</a>
+                <a href="/users/export/pdf" class="btn btn-danger text-white shadow-none ms-2"><i class="fa-solid fa-file-pdf"></i>&nbsp;&nbsp;Export (PDF)</a>
             </div>
             <form>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="pencarian" placeholder="Pencarian" autocomplete="off">
-                    <button type="submit" class="btn btn-secondary text-white shadow-none" type="button" id="button-addon2">Cari</button>
+                <label class="form-label">Filter Data</label>
+                <div class="mb-3">
+                    <input type="text" class="form-control pencarian" name="pencarian" placeholder="Pencarian" autocomplete="off">
                 </div>
+                <button type="submit" class="btn btn-secondary text-white shadow-none" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;Cari</button>
             </form>
         </div>
     </div>
@@ -63,9 +66,9 @@
                                                 </div>
                                                 <div class="modal-body">
                                                   <label class="mb-2">Apakah anda yakin ingin menghapus user berikut ?</label>
-                                                  <p class="text-nama m-0"><b>Nama</b> {{ $user->nama }}</p>
-                                                  <p class="text-username m-0"><b>Username</b> {{ $user->username }}</p>
-                                                  <p class="text-role m-0"><b>Role</b> {{ $user->role }}</p>
+                                                  <p class="m-0"><b>Nama</b> {{ $user->nama }}</p>
+                                                  <p class="m-0"><b>Username</b> {{ $user->username }}</p>
+                                                  <p class="m-0"><b>Role</b> {{ $user->role }}</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                   <button type="button" class="btn btn-secondary text-white shadow-none" data-bs-dismiss="modal">Tidak</button>

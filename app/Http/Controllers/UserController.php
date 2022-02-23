@@ -8,6 +8,7 @@ use App\Models\LogUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -72,7 +73,7 @@ class UserController extends Controller
         User::create($validation);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/users')->with('success', 'Berhasil Menambahkan User Baru');
+        return redirect('/dashboard/users')->with('success', 'Berhasil menambahkan user baru dengan username ' . $request['username']);
     }
 
     /**
@@ -131,7 +132,7 @@ class UserController extends Controller
         User::where('id', $user->id)->update($validation);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/users')->with('success', 'Berhasil Mengubah User');
+        return redirect('/dashboard/users')->with('success', 'Berhasil mengubah user dengan username ' . $request['username']);
     }
 
     /**
@@ -151,19 +152,42 @@ class UserController extends Controller
         User::destroy($user->id);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/users')->with('success', 'Berhasil Menghapus User');
+        return redirect('/dashboard/users')->with('success', 'Berhasil menghapus user dengan username ' . $user->username);
     }
 
-    public function export() 
+    public function exportExcel() 
     {
         $log_user = [
             'username' => auth()->user()->username,
             'role' => auth()->user()->role,
-            'deskripsi' => auth()->user()->username . ' melakukan ekspor data user'
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (Excel) data user'
         ];
 
         LogUser::create($log_user);
 
         return Excel::download(new UsersExport, Str::random(10) . '.xlsx');
+    }
+
+    public function exportPDF() 
+    {
+        $log_user = [
+            'username' => auth()->user()->username,
+            'role' => auth()->user()->role,
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (PDF) data user'
+        ];
+
+        LogUser::create($log_user);
+
+        $data_pegawai = User::where('username', auth()->user()->username)->get();
+        $users = User::all();
+
+        $data = [
+            'nama_pegawai' => $data_pegawai[0]->nama,
+            'role' => $data_pegawai[0]->role,
+            'users' => $users
+        ];
+
+        $pdf = PDF::loadView('pdf.users-pdf', $data);
+        return $pdf->download(Str::random(10) . '.pdf');
     }
 }

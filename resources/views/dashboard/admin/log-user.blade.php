@@ -3,6 +3,26 @@
 @section('page-dashboard')
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form>
+                <label class="form-label">Filter Data</label>
+                <div class="input-group mb-3">
+                    <div class="me-2">
+                        <input type="date" class="form-control date" name="date1">
+                    </div>
+                    <span class="m-0 py-2">to</span>
+                    <div class="ms-2">
+                        <input type="date" class="form-control date" name="date2">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-secondary text-white shadow-none" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;Cari</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-sm-12">
         <div class="white-box">
             <h3 class="box-title">Log Users</h3>

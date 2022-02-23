@@ -32,7 +32,8 @@ Route::get('/logout', [LoginController::class, 'logout']);
 // Admin
 Route::resource('/dashboard/users', UserController::class);
 Route::get('/dashboard/log-users', [LogUserController::class, 'index']);
-Route::get('/users/export', [UserController::class, 'export'])->middleware('auth');
+Route::get('/users/export/excel', [UserController::class, 'exportExcel'])->middleware('auth');
+Route::get('/users/export/pdf', [UserController::class, 'exportPDF'])->middleware('auth');
 
 // Manager
 Route::resource('/dashboard/menu', MenuController::class);
