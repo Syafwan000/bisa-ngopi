@@ -36,7 +36,11 @@ Route::get('/users/export', [UserController::class, 'export'])->middleware('auth
 
 // Manager
 Route::resource('/dashboard/menu', MenuController::class);
-Route::get('/menu/export', [MenuController::class, 'export'])->middleware('auth');
+Route::get('/menu/export/excel', [MenuController::class, 'exportExcel'])->middleware('auth');
+Route::get('/menu/export/pdf', [MenuController::class, 'exportPDF'])->middleware('auth');
+Route::get('/dashboard/transaksi', [MenuController::class, 'transaksi']);
+Route::get('/transaksi/export/excel', [MenuController::class, 'transaksiExcel']);
+Route::get('/transaksi/export/pdf', [MenuController::class, 'transaksiPDF']);
 
 // Cashier
 Route::resource('/dashboard/cashier', TransaksiController::class);

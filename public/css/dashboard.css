@@ -23,6 +23,10 @@ textarea {
     resize: none;
 }
 
-input[type="date"].date {
+input[type="date"].date, input[type="text"].pencarian {
     border: 1px solid #8898AA;
+}
+
+input[type="text"].pencarian {
+    width: 200px;
 }

@@ -2,31 +2,32 @@
 
 namespace App\Exports;
 
-use App\Models\Menu;
+use App\Models\Transaksi;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class MenuExport implements FromCollection, WithHeadings, ShouldAutoSize
+class AllTransaksiExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Menu::all();
+        return Transaksi::all();
     }
 
     public function headings(): array
     {
         return [
             'ID',
+            'Nama Pelanggan',
             'Nama Menu',
-            'Harga',
-            'Deskripsi',
-            'Ketersediaan',
-            'Tanggal Ditambahkan',
-            'Tanggal Edit'
+            'Jumlah',
+            'Total Harga',
+            'Nama Pegawai',
+            'Tanggal Transaksi',
+            'Tanggal Edit Transaksi'
         ];
     }
 }

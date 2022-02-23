@@ -13,14 +13,14 @@
             text-align: center;
         }
     </style>
-    <title>Data Transaksi</title>
+    <title>Semua Data Transaksi</title>
 </head>
 <body>
     <div class="container">
         <h3 style="text-align: center">BisaNgopi</h3>
         <p><b>Nama Pegawai</b> : {{ $nama_pegawai }}</p>
         <p><b>Role</b> : {{ $role }}</p>
-        <p class="title"><b>Data Transaksi</b></p>
+        <p class="title"><b>Semua Data Transaksi</b></p>
     </div>
     <div class="container">
         <table class="table" border="1">
@@ -43,7 +43,7 @@
                         <td>{{ $transaksi->nama_menu }}</td>
                         <td>{{ number_format($transaksi->jumlah) }}</td>
                         <td>Rp {{ number_format($transaksi->total_harga) }}</td>
-                        <td>{{ $nama_pegawai }}</td>
+                        <td>{{ $transaksi->nama_pegawai }}</td>
                         <td>{{ $transaksi->created_at }}</td>
                     </tr>
                 @endforeach

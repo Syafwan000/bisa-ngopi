@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        User::factory(35)->create();
+        User::factory(50)->create();
 
         User::create([
             'nama' => 'Muhammad Syafwan Ardiansyah',
             'username' => 'syafwan000',
-            'role' => 'Cashier',
+            'role' => 'Manager',
             'password' => bcrypt('password')
         ]);
     }

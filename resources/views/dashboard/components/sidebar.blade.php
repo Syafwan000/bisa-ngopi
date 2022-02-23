@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link {{ Request::is('/dashboard/menu*') ? 'active' : '' }}" href="basic-table.html"
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link {{ Request::is('/dashboard/transaksi*') ? 'active' : '' }}" href="/dashboard/transaksi"
                         aria-expanded="false">
                         <i class="fa-solid fa-circle-dollar-to-slot" aria-hidden="true"></i>
                         <span class="hide-menu">Transaksi</span>

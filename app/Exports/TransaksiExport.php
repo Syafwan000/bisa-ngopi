@@ -20,7 +20,7 @@ class TransaksiExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'No',
+            'ID',
             'Nama Pelanggan',
             'Nama Menu',
             'Jumlah',

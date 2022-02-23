@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\LogUser;
 use App\Exports\MenuExport;
+use App\Exports\AllTransaksiExport;
 use App\Models\Menu;
+use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MenuController extends Controller
 {
@@ -33,6 +36,22 @@ class MenuController extends Controller
         return view('dashboard.manager.menu', [
             'title' => 'Dashboard | Menu',
             'menus' => $menus
+        ]);
+    }
+
+    public function transaksi(Request $request)
+    {
+        $transaksis = Transaksi::latest()->paginate(10);
+
+        if($request['date1'] || $request['date2']) {
+            $transaksis = Transaksi::whereBetween('created_at', [$request['date1'], $request['date2']])
+                                   ->paginate(10)
+                                   ->withQueryString();
+        }
+
+        return view('dashboard.manager.transaksi', [
+            'title' => 'Dashboard | Transaksi',
+            'transaksis' => $transaksis
         ]);
     }
 
@@ -72,7 +91,7 @@ class MenuController extends Controller
         Menu::create($validation);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/menu')->with('success', 'Berhasil Menambahkan Menu Baru');
+        return redirect('/dashboard/menu')->with('success', 'Berhasil menambahkan menu baru dengan nama ' . $request['nama_menu']);
     }
 
     /**
@@ -121,13 +140,13 @@ class MenuController extends Controller
         $log_user = [
             'username' => auth()->user()->username,
             'role' => auth()->user()->role,
-            'deskripsi' => auth()->user()->username . ' merubah menu dengan nama menu ' . $request['nama_menu']
+            'deskripsi' => auth()->user()->username . ' merubah menu dengan nama ' . $request['nama_menu']
         ];
 
         Menu::where('id', $menu->id)->update($validation);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/menu')->with('success', 'Berhasil Mengubah Menu');
+        return redirect('/dashboard/menu')->with('success', 'Berhasil mengubah menu dengan nama ' . $request['nama_menu']);
     }
 
     /**
@@ -141,25 +160,84 @@ class MenuController extends Controller
         $log_user = [
             'username' => auth()->user()->username,
             'role' => auth()->user()->role,
-            'deskripsi' => auth()->user()->username . ' menghapus menu dengan nama menu ' . $menu->username
+            'deskripsi' => auth()->user()->username . ' menghapus menu dengan nama ' . $menu->nama_menu
         ];
 
         Menu::destroy($menu->id);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/menu')->with('success', 'Berhasil Menghapus Menu');
+        return redirect('/dashboard/menu')->with('success', 'Berhasil menghapus menu dengan nama ' . $menu->nama_menu);
     }
 
-    public function export() 
+    public function exportExcel() 
     {
         $log_user = [
             'username' => auth()->user()->username,
             'role' => auth()->user()->role,
-            'deskripsi' => auth()->user()->username . ' melakukan ekspor data menu'
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (Excel) data menu'
         ];
 
         LogUser::create($log_user);
 
         return Excel::download(new MenuExport, Str::random(10) . '.xlsx');
+    }
+
+    public function exportPDF() 
+    {
+        $log_user = [
+            'username' => auth()->user()->username,
+            'role' => auth()->user()->role,
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (PDF) data menu'
+        ];
+
+        LogUser::create($log_user);
+
+        $data_pegawai = User::where('username', auth()->user()->username)->get();
+        $menus = Menu::all();
+
+        $data = [
+            'nama_pegawai' => $data_pegawai[0]->nama,
+            'role' => $data_pegawai[0]->role,
+            'menus' => $menus
+        ];
+
+        $pdf = PDF::loadView('pdf.menu-pdf', $data);
+        return $pdf->download(Str::random(10) . '.pdf');
+    }
+
+    public function transaksiExcel() 
+    {
+        $log_user = [
+            'username' => auth()->user()->username,
+            'role' => auth()->user()->role,
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (Excel) semua data transaksi pemesanan'
+        ];
+
+        LogUser::create($log_user);
+
+        return Excel::download(new AllTransaksiExport, Str::random(10) . '.xlsx');
+    }
+
+    public function transaksiPDF() 
+    {
+        $log_user = [
+            'username' => auth()->user()->username,
+            'role' => auth()->user()->role,
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (PDF) semua data transaksi pemesanan'
+        ];
+
+        LogUser::create($log_user);
+
+        $data_pegawai = User::where('username', auth()->user()->username)->get();
+        $transaksis = Transaksi::all();
+
+        $data = [
+            'nama_pegawai' => $data_pegawai[0]->nama,
+            'role' => $data_pegawai[0]->role,
+            'transaksis' => $transaksis
+        ];
+
+        $pdf = PDF::loadView('pdf.transaksi-pdf', $data);
+        return $pdf->download(Str::random(10) . '.pdf');
     }
 }
