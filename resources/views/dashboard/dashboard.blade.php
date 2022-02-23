@@ -12,7 +12,7 @@
                         <i class="fa-solid fa-user-gear"></i>
                     </div>
                 </li>
-                <li class="ms-auto"><span class="counter text-success">{{ $total_admin }}</span></li>
+                <li class="ms-auto"><span class="counter text-success">{{ number_format($total_admin) }}</span></li>
             </ul>
         </div>
     </div>
@@ -25,7 +25,7 @@
                         <i class="fa-solid fa-user-tie"></i>
                     </div>
                 </li>
-                <li class="ms-auto"><span class="counter text-purple">{{ $total_manager }}</span></li>
+                <li class="ms-auto"><span class="counter text-purple">{{ number_format($total_manager) }}</span></li>
             </ul>
         </div>
     </div>
@@ -38,7 +38,7 @@
                         <i class="fa-solid fa-user-pen"></i>
                     </div>
                 </li>
-                <li class="ms-auto"><span class="counter text-info">{{ $total_cashier }}</span>
+                <li class="ms-auto"><span class="counter text-info">{{ number_format($total_cashier) }}</span>
                 </li>
             </ul>
         </div>

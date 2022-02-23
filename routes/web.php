@@ -40,3 +40,5 @@ Route::get('/menu/export', [MenuController::class, 'export'])->middleware('auth'
 
 // Cashier
 Route::resource('/dashboard/cashier', TransaksiController::class);
+Route::get('/cashier/export/excel', [TransaksiController::class, 'exportExcel']);
+Route::get('/cashier/export/pdf', [TransaksiController::class, 'exportPDF']);

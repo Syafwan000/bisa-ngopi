@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\LogUser;
+use App\Exports\TransaksiExport;
 use App\Models\Menu;
 use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiController extends Controller
 {
@@ -14,9 +19,16 @@ class TransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $transaksis = Transaksi::where('nama_pegawai', auth()->user()->nama)->latest()->paginate(10);
+        
+        if($request['date1'] || $request['date2']) {
+            $transaksis = Transaksi::where('nama_pegawai', auth()->user()->nama)
+                                   ->whereBetween('created_at', [$request['date1'], $request['date2']])
+                                   ->paginate(10)
+                                   ->withQueryString();
+        }
 
         return view('dashboard.cashier.cashier', [
             'title' => 'Dashboard | Cashier',
@@ -61,10 +73,27 @@ class TransaksiController extends Controller
             'deskripsi' => auth()->user()->username . ' melayani pelanggan atas nama ' . $request['nama_pelanggan']
         ];
 
+        $menu = Menu::where('nama_menu', $request['nama_menu'])->get();
+
+        if($menu[0]->ketersediaan < $request['jumlah']) {
+            return redirect('/dashboard/cashier')->with('failed', 'Ketersediaan menu tidak mencukupi permintaan pesanan');
+        } else {
+            $ketersediaan_baru = $menu[0]->ketersediaan - $request['jumlah'];
+
+            $menu_baru = [
+                'nama_menu' => $menu[0]->nama_menu,
+                'harga' => $menu[0]->harga,
+                'deskripsi' => $menu[0]->deskripsi,
+                'ketersediaan' => $ketersediaan_baru
+            ];
+
+            Menu::where('nama_menu', $request['nama_menu'])->update($menu_baru);
+        }
+
         Transaksi::create($validation);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/cashier')->with('success', 'Berhasil Melakukan Pemesanan');
+        return redirect('/dashboard/cashier')->with('success', 'Berhasil melakukan pemesanan atas nama ' . $request['nama_pelanggan']);
     }
 
     /**
@@ -120,7 +149,7 @@ class TransaksiController extends Controller
         Transaksi::where('id', $id)->update($validation);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/cashier')->with('success', 'Berhasil Mengubah Transaksi');
+        return redirect('/dashboard/cashier')->with('success', 'Berhasil mengubah transaksi atas nama ' . $request['nama_pelanggan']);
     }
 
     /**
@@ -142,6 +171,42 @@ class TransaksiController extends Controller
         Transaksi::destroy($id);
         LogUser::create($log_user);
 
-        return redirect('/dashboard/cashier')->with('success', 'Berhasil Menghapus Transaksi');
+        return redirect('/dashboard/cashier')->with('success', 'Berhasil menghapus transaksi atas nama ' . $transaksi[0]->nama_pelanggan);
+    }
+
+    public function exportExcel() 
+    {
+        $log_user = [
+            'username' => auth()->user()->username,
+            'role' => auth()->user()->role,
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (Excel) data transaksi pemesanan'
+        ];
+
+        LogUser::create($log_user);
+
+        return Excel::download(new TransaksiExport, Str::random(10) . '.xlsx');
+    }
+
+    public function exportPDF() 
+    {
+        $log_user = [
+            'username' => auth()->user()->username,
+            'role' => auth()->user()->role,
+            'deskripsi' => auth()->user()->username . ' melakukan ekspor (PDF) data transaksi pemesanan'
+        ];
+
+        LogUser::create($log_user);
+
+        $data_pegawai = User::where('username', auth()->user()->username)->get();
+        $data_transaksi = Transaksi::where('nama_pegawai', auth()->user()->nama)->get();
+
+        $data = [
+            'nama_pegawai' => $data_pegawai[0]->nama,
+            'role' => $data_pegawai[0]->role,
+            'transaksis' => $data_transaksi
+        ];
+
+        $pdf = PDF::loadView('pdf.cashier-pdf', $data);
+        return $pdf->download(Str::random(10) . '.pdf');
     }
 }

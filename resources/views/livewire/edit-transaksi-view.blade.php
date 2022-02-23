@@ -19,7 +19,7 @@
                     <select class="form-select shadow-none" name="nama_menu" id="nama_menu" wire:model="nama_menu">
                         <option selected hidden>=== Pilih Menu ===</option>
                         @foreach($menus as $menu)
-                            <option value="{{ $menu->nama_menu }}">{{ $menu->nama_menu }} | Rp {{ number_format($menu->harga) }}</option>
+                            <option hidden value="{{ $menu->nama_menu }}">{{ $menu->nama_menu }} | Rp {{ number_format($menu->harga) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -31,7 +31,7 @@
                 @if($nama_menu)
                     <div class="profile-wrapper mb-2">
                         <label class="form-label mb-1" for="jumlah">Jumlah</label>
-                        <input type="number" class="form-control" name="jumlah" id="jumlah" wire:model="jumlah" wire:change="totalHarga" placeholder="Masukkan Jumlah">
+                        <input type="number" class="form-control" name="jumlah" id="jumlah" wire:model="jumlah" wire:change="totalHarga" placeholder="Masukkan Jumlah" readonly>
                     </div>
                     @error('jumlah')
                         <div class="invalid-feedback">
