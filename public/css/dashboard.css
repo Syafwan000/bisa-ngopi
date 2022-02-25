@@ -30,3 +30,11 @@ input[type="date"].date, input[type="text"].pencarian {
 input[type="text"].pencarian {
     width: 200px;
 }
+
+.btn-back {
+    background-color: #000 !important;
+}
+
+.btn-back:hover {
+    background-color: rgb(44, 41, 41) !important;
+}

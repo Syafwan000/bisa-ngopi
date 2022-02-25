@@ -20,30 +20,49 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Auth
-Route::get('/', [LoginController::class, 'index'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'authenticate']);
+Route::controller(LoginController::class)->group(function () {
+    Route::middleware(['guest'])->group(function () {
+        Route::get('/', 'index')->name('login');
+        Route::post('/login', 'authenticate');
+    });
+    Route::get('/logout', 'logout')->middleware('auth');
+});
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-Route::get('/dashboard/profile', [ProfileController::class, 'index'])->middleware('auth');
-Route::get('/logout', [LoginController::class, 'logout']);
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/dashboard', 'index')->middleware('auth');
+});
 
-// Admin
-Route::resource('/dashboard/users', UserController::class);
-Route::get('/dashboard/log-users', [LogUserController::class, 'index']);
-Route::get('/users/export/excel', [UserController::class, 'exportExcel'])->middleware('auth');
-Route::get('/users/export/pdf', [UserController::class, 'exportPDF'])->middleware('auth');
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/dashboard/profile', 'index')->middleware('auth');
+});
 
-// Manager
-Route::resource('/dashboard/menu', MenuController::class);
-Route::get('/menu/export/excel', [MenuController::class, 'exportExcel'])->middleware('auth');
-Route::get('/menu/export/pdf', [MenuController::class, 'exportPDF'])->middleware('auth');
-Route::get('/dashboard/transaksi', [MenuController::class, 'transaksi']);
-Route::get('/transaksi/export/excel', [MenuController::class, 'transaksiExcel']);
-Route::get('/transaksi/export/pdf', [MenuController::class, 'transaksiPDF']);
+Route::controller(UserController::class)->group(function () {
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::resource('/dashboard/users', UserController::class);
+        Route::get('/users/export/excel', 'exportExcel');
+        Route::get('/users/export/pdf', 'exportPDF');
+    });
+});
 
-// Cashier
-Route::resource('/dashboard/cashier', TransaksiController::class);
-Route::get('/cashier/export/excel', [TransaksiController::class, 'exportExcel']);
-Route::get('/cashier/export/pdf', [TransaksiController::class, 'exportPDF']);
+Route::controller(LogUserController::class)->group(function () {
+    Route::get('/dashboard/log-users', 'index')->middleware('auth', 'admin');
+});
+
+Route::controller(MenuController::class)->group(function () {
+    Route::middleware(['auth', 'manager'])->group(function () {
+        Route::resource('/dashboard/menu', MenuController::class);
+        Route::get('/menu/export/excel', 'exportExcel');
+        Route::get('/menu/export/pdf', 'exportPDF');
+        Route::get('/dashboard/transaksi', 'transaksi');
+        Route::get('/transaksi/export/excel', 'transaksiExcel');
+        Route::get('/transaksi/export/pdf', 'transaksiPDF');
+    });
+});
+
+Route::controller(TransaksiController::class)->group(function () {
+    Route::middleware(['auth', 'cashier'])->group(function () {
+        Route::resource('/dashboard/cashier', TransaksiController::class);
+        Route::get('/cashier/export/excel', 'exportExcel');
+        Route::get('/cashier/export/pdf', 'exportPDF');
+    });
+});
