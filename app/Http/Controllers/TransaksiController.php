@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Session;
 
 class TransaksiController extends Controller
 {
@@ -29,6 +30,8 @@ class TransaksiController extends Controller
                                    ->paginate(10)
                                    ->withQueryString();
         }
+
+        Session::put('transaksis', $transaksis);
 
         return view('dashboard.cashier.cashier', [
             'title' => 'Dashboard | Cashier',
@@ -198,7 +201,7 @@ class TransaksiController extends Controller
         LogUser::create($log_user);
 
         $data_pegawai = User::where('username', auth()->user()->username)->get();
-        $data_transaksi = Transaksi::where('nama_pegawai', auth()->user()->nama)->get();
+        $data_transaksi = Session::get('transaksis');
 
         $data = [
             'nama_pegawai' => $data_pegawai[0]->nama,

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller
 {
@@ -33,6 +34,8 @@ class MenuController extends Controller
                          ->withQueryString();
         }
 
+        Session::put('menus', $menus);
+
         return view('dashboard.manager.menu', [
             'title' => 'Dashboard | Menu',
             'menus' => $menus
@@ -48,6 +51,8 @@ class MenuController extends Controller
                                    ->paginate(10)
                                    ->withQueryString();
         }
+
+        Session::put('all_transaksis', $transaksis);
 
         return view('dashboard.manager.transaksi', [
             'title' => 'Dashboard | Transaksi',
@@ -193,7 +198,7 @@ class MenuController extends Controller
         LogUser::create($log_user);
 
         $data_pegawai = User::where('username', auth()->user()->username)->get();
-        $menus = Menu::all();
+        $menus = Session::get('menus');
 
         $data = [
             'nama_pegawai' => $data_pegawai[0]->nama,
@@ -229,7 +234,7 @@ class MenuController extends Controller
         LogUser::create($log_user);
 
         $data_pegawai = User::where('username', auth()->user()->username)->get();
-        $transaksis = Transaksi::all();
+        $transaksis = Session::get('all_transaksis');
 
         $data = [
             'nama_pegawai' => $data_pegawai[0]->nama,
